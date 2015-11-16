@@ -1,0 +1,85 @@
+============================ logfiledef.txt =================================
+This file defines the columns of data in the low-rate channel-specific log
+files produced by the GRID software receiver.  Each log file corresponds to
+one channel in the receiver.  At any given time, each active channel tracks a
+single signal from a single transmitter (see the list of possible signals in
+the .  This means that the log file may record the acquisition of a signal,
+track that signal for some time, lose the signal, and subsequently acquire
+another different signal.  All of this is recorded in the same log file.
+
+Two types of measurement time stamps are given in each log file.  They both
+correspond to the same event: the observables measurement event.
+
+    (1) Raw Receiver Time (RRT): This time stamp is linked directly to the
+    receiver's sampling clock.  It starts at zero when the receiver is
+    initialized and is never interrupted or adjusted by the code.
+
+    (2) Offset Receiver Time (ORT): This time stamp is equal to RRT plus an
+    offset that brings the result close (within a few ms) to true GPS time:
+
+    ORT = RRT + tOffset
+
+    The offset gets periodically adjusted every so often to bring ORT back
+    within a few ms of true GPS time.  When the offset is adjusted, a small
+    jump in ORT is introduced.  For maximum resolution, ORT is given in
+    separate columns for week, whole second, and fractional seconds.
+=============================================================================
+
+
+Column              Quantity
+
+1 ----------------- RRT week number.
+
+2 ----------------- RRT seconds of week.
+
+3 ----------------- ORT week number. 
+
+4 ----------------- ORT whole seconds of week.
+
+5 ----------------- ORT fractional second. 
+
+6 ----------------- Apparent Doppler frequency in Hz (positive for
+                    approaching SVs).
+
+7 ----------------- Beat carrier phase in cycles (changes in the same sense as
+                    pseudorange).
+
+8 ----------------- Pseudorange in meters.
+
+9 ----------------- Carrier-to-noise ratio (C/N0) in dB-Hz.
+
+10 ---------------- Flag indicating whether (1) or not (0) the pseudorange and
+                    carrier phase measurements are valid.
+
+11 ---------------- A flag indicating whether (1) or not (0) an anomaly has
+                    been detected in the PLL's phase tracking error.  By
+                    anomaly is meant a carrier cycle slip or unusually large
+                    phase error.  Phase measurements should be regarded with
+                    distrust if this flag is asserted.
+
+12 ---------------- Channel status indicator:
+                    0       STATUS_NULL
+                    1       STATUS_ALLOCATED
+                    2       STATUS_ACQUIRED
+                    3       STATUS_SYMBOL_LOCK
+                    4       STATUS_FREQ_LOCK
+                    5       STATUS_PHASE_LOCK
+                    6       STATUS_DATA_LOCK
+
+13 ---------------- Signal type:
+                    0       GPS_L1_CA       // GPS L1 legacy civil code 
+                    1       GPS_L2_CM       // GPS L2 civil M code
+                    2       GPS_L2_CL       // GPS L2 civil L code
+                    3       GPS_L2_CLM      // GPS L2 M+L combined tracking 
+                    4       GPS_L5_I        // GPS L5 civil in-phase
+                    5       GPS_L5_Q        // GPS L5 civil quadrature
+                    6       GPS_L5_IQ       // GPS L5 civil I+Q combined tracking
+                    7       GPS_L1_CA_ALT1  // GPS L1 C/A for alternative L1C bank
+                    8       CDMA_UHF_PILOT  // Cellular CDMA pilot, I+Q signal
+                    9       CDMA_UHF_SYNC   // Cellular CDMA pilot+sync, I+Q signal
+
+14 ---------------- Space vehicle identification number (SVID).
+
+
+=============================================================================
+
