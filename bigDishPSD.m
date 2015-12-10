@@ -6,14 +6,14 @@
 clear; clc;
 %----- Setup
 fs = 46.08e6;   % Sampling frequency (Hz)
-nfft = 500;     % Size of FFT used in power spectrum estimation
+nfft = 1000;     % Size of FFT used in power spectrum estimation
 window = 1000;
 
 %----- Load data
 load(['prn31_22apr03_01hrs40min00sec_gmt_fl1_46_08mhz_250msec.mat']);
 % 
 %----- Compute power spectrum estimate
-[Syy, fVec] = pwelch(Y, window, [], nfft, fs);
+[Syy, fVec] = pwelch(Y, 200, [], nfft, fs);
 
 %----- Plot results
 yLow = min(Syy);

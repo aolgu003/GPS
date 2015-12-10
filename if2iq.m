@@ -33,17 +33,28 @@ function [IVec,QVec] = if2iq(xVec,T,fIF)
 %
 %+========================================================================+
 
-% T = Tl/2;
+B = .8/(2*T); %fs = 1/T = 2W where W = B/.8
 
-nSize = length(xVec);
+It = zeros(size(xVec));
+Qt = zeros(size(xVec));
 
-It = xVec*cos(2*pi*fIF*n*T);
-Qt = xVec*sin(2*pi*fIF*n*T);
+% Down mix the signal
+for n = 0:length(xVec)-1
+    It(n+1) = xVec(n+1)*cos(2*pi*fIF*n*T);
+    Qt(n+1) = xVec(n+1)*sin(2*pi*fIF*n*T);
+end
+clear n xVec;
 
-
-normfIF = fIF/T;
-%digtal low pass
+% Low pass filter the down mixied signal
+normfIF = (5e6)*T;
 [b,a] = butter(1,normfIF);
 
-Iw = filter(b,a,It);
-Qw = filter(b,a,Qt);;
+Iw = sqrt(2)*filter(b,a,It);
+Qw = sqrt(2)*filter(b,a,Qt);
+clear It Qt;
+
+%Decimate the filtered signal
+IVec = decimate(Iw,2);
+QVec = decimate(Iw, 2);
+% IVec = It;
+% QVec = Qt;

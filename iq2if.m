@@ -36,16 +36,10 @@ function [xVec] = iq2if(IVec,QVec,Tl,fIF)
 T = Tl/2;
 
 Im = interp(IVec,2);
-
 Qm = interp(QVec,2);
 
-% n = 0:T:length(IVec);
-i = 1;
-n = 0;
+xVec = zeros(size(Im));
 for j=1:length(Im)
-    I = Im(i)*cos(2*pi*fIF*n*T);
-    Q = Qm(i)*sin(2*pi*fIF*n*T);
-    xVec(i) = I+1i*Q;
-    i = i+1;
-    n = n + T;
+    n = j-1;
+    xVec(j) = 2*(Im(j)*cos(2*pi*fIF*n*T) - Qm(j)*sin(2*pi*fIF*n*T));
 end

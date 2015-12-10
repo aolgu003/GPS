@@ -1,5 +1,4 @@
 function [zvec,ivec] = ccorr(xvec,yvec)
-%
 % CCORR  Circular correlation (FFT-based) 
 % [zvec,ivec] = ccorr(xvec,yvec)
 %
