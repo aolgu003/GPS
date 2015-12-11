@@ -14,7 +14,7 @@ Tl = 1/fsampIQ;
 
 
 %----- Load data
-fid = fopen('niData01head.bin','r','l');
+fid = fopen('niData02.bin','r','l');
 Y = fread(fid, [2,N], 'int16')';
 
 % %----- Calculate IF signal
@@ -31,7 +31,7 @@ X_IF = IVec + 1j*QVec;
 
 figure(1)
 clf
-subplot(2,1,1)
+subplot(2,2,1)
 hold on
 yLow1 = min(10*log10(Sxx));
 plot(fVec1/1e6,10*log10(Sxx));
@@ -50,11 +50,27 @@ legend('BB of original signal',...
     'Single sided shifted IF signal', 'Conversion back to BB')
 hold off
 
-subplot(2,1,2)
+subplot(2,2,2)
+yLow2 = min(10*log10(Sxx));
+area(fVec1/1e6,10*log10(Sxx),yLow2);
+grid on
+title('Power spectral density estimate of the orignal BB signal');
+xlabel('Frequency (MHz)');
+ylabel('Power density (dB/Hz)');
+
+subplot(2,2,3)
 yLow2 = min(10*log10(Syy));
 area(fVec2/1e6,10*log10(Syy),yLow2);
 grid on
 title('Power spectral density estimate of the IF signal');
+xlabel('Frequency (MHz)');
+ylabel('Power density (dB/Hz)');
+
+subplot(2,2,4)
+yLow2 = min(10*log10(Szz));
+area(fVec3/1e6,10*log10(Szz),yLow2);
+grid on
+title('Power spectral density estimate of converted BB signal');
 xlabel('Frequency (MHz)');
 ylabel('Power density (dB/Hz)');
 

@@ -3,20 +3,38 @@
 % Top-level script for performing acquisition calculations
 
 %----- Setup
-clear; clc;
-s.C_N0dBHz = 27;    
+clear 
+clc
+% s.C_N0dBHz = 44;    
 s.N = 1;    
-s.M = 1;
-s.PfaAcq = .95;   
+s.M = 10;
+s.PfaAcq = .001;   
 s.Tsub = 0.001;     
 s.fMax = 7000;
-s.nCodeOffsets = 1026*5; 
+s.nCodeOffsets = 1023*5; 
 s.ZMax = 1000;
 s.delZ = 0.1;
 
 %----- Execute
-[pZ_H0,pZ_H1,lambda0,Pd,ZVec] = performAcqHypothesisCalcs(s);
-
+figure(1)
+clf
+Pd = 0;
+i = 1;
+for C_N0dBHz = 30:3:51
+    s.C_N0dBHz = C_N0dBHz;
+    while Pd < .95
+        [pZ_H0,pZ_H1,lambda0,Pd,ZVec] = performAcqHypothesisCalcs(s);
+        s.N = s.N+1;
+        Pd_array(i) = Pd;
+        i = i+1;
+    end
+    i = 1;
+    Pd = 0;
+    hold on
+    figure
+    stem(Pd_array)
+    hold off
+end
 
 %----- Visualize the results
 figure(2);

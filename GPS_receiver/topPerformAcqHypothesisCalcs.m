@@ -4,15 +4,15 @@
 
 %----- Setup
 clear; clc;
-s.C_N0dBHz = ???;    
-s.N = ???;    
-s.M = ???;
-s.PfaAcq = ???;   
-s.Tsub = 0.001;     
-s.fMax = 7000;
-s.nCodeOffsets = ???; 
-s.ZMax = 1000;
-s.delZ = 0.1;
+s.C_N0dBHz = 43;    
+s.N = 1;    
+s.M = 10;
+s.PfaAcq = .001;   
+s.Tsub = 0.01;     
+s.fMax = 5e3;
+s.nCodeOffsets = 10; 
+s.ZMax = 5e10;
+s.delZ = 10000;
 
 %----- Execute
 [pZ_H0,pZ_H1,lambda0,Pd,ZVec] = performAcqHypothesisCalcs(s);

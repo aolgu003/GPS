@@ -22,8 +22,8 @@ samples_IF = iq2if(real(Y), imag(Y), Tl ,fIF );
 % area(fVec2/1e6,10*log10(Syy),yLow2);
 
 %generate C/A codes
-sv = [1:31];
-CA_codes = cacode(sv,fsampIF/1.023e6);
+sv = [1];
+CA_codes = cacode(sv,2*fsampIF/1.023e6);
 
 N0 = Tc*fsampIF;
 
@@ -31,26 +31,27 @@ Beta = length(-10e3:500:10e3);
 sub_accum = zeros([Beta N0 length(sv)]);
 
 tstart = 1;
-M = 10;
+M = 50;
+    for i=1:length(sv)
+
 for tcoh = 1:M
     %grab a new chunk of data
     IFsamp = samples_IF(tstart:(tstart+N0-1));
     
-    for i=1:length(sv)
         %get new ca code
         cx = CA_codes(i,:);
         
         %Generate sub-accum
-        sub_accum(:,:,i) = sub_accum(:,:,i) + ...
-            gen_accum( IFsamp, T, fIF, cx, Beta);  
+        sub_accum(:,:,i) = (sub_accum(:,:,i) + ...
+            gen_accum( IFsamp, T, fIF, cx, Beta))./2;  
     end
     tstart = tstart+N0;
     
 end
 
 figure
-mesh(sub_accum(:,:,10))
+mesh(sub_accum(:,:,sv))
 title('C/A code 10')
-xaxis('Dopplar shift (kHz)')
-yaxis('Time Shift (s)')
+% xaxis('Dopplar shift (kHz)')
+% yaxis('Time Shift (s)')
 

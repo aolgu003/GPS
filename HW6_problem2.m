@@ -28,17 +28,17 @@ Hs_third =  K*(s^2 + a*s + b)/(s^3 + K * s^2 + K*a*s + K*b)
 
 %Set up parameters for simulation
 dt = .001;
-t = -.5:dt:2;
+t = -.5:dt:15;
 
 impulse = t==0;
 step = heaviside(t);
 ramp = t.*5.*step;
 quad = t.^2.*5.*step;
 
-ind = find(ramp > 1);
-ramp(ind) = 1;
-ind = find(quad > 1);
-quad(ind) = 1;
+% ind = find(ramp > 1);
+% ramp(ind) = 1;
+% ind = find(quad > 1);
+% quad(ind) = 1;
 % 
 % Hs_first = feedback(Hs_first,1);
 % Hs_second = feedback(Hs_second,2);
